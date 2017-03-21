@@ -157,7 +157,7 @@ public class Simulator
 			
 			// TODO: Add this process to the CPU queue!
 			// Also add new events to the event queue if needed
-			getCpuQueue().add(p);
+			cpu.insertProcess(p, clock);
 			// Since we haven't implemented the CPU and I/O device yet,
 			// we let the process leave the system immediately, for now.
 			memory.processCompleted(p);
@@ -175,7 +175,8 @@ public class Simulator
 	 * Simulates a process switch.
 	 */
 	private void switchProcess() {
-		// Incomplete
+		Event e = cpu.switchProcess(clock);
+        eventQueue.insertEvent(e);
 	}
 
 	/**
