@@ -100,6 +100,30 @@ public class Process {
 	public long getProcessId() {
 		return processId;
 	}
+	
+	public long getCpuTimeNeeded() {
+		return cpuTimeNeeded;
+	}
+	
+	public long getTimeToNextIoOperation() {
+		return timeToNextIoOperation;
+	}
+	
+	public void addToCpuQueue(long clock) {
+		nofTimesInReadyQueue++;
+		timeOfLastEvent = clock;
+	}
+	
+	public void activateCpu(long clock) {
+		timeSpentInReadyQueue += clock - timeOfLastEvent;
+		timeOfLastEvent = clock;
+	}
+	
+	public void deactivateCpu(long clock) {
+		cpuTimeNeeded -= clock - timeOfLastEvent;
+		timeSpentInCpu += clock - timeOfLastEvent;
+		addToCpuQueue(clock);
+	}
 
 	// Add more methods as needed
 }
