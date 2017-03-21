@@ -157,7 +157,7 @@ public class Simulator
 			
 			// TODO: Add this process to the CPU queue!
 			// Also add new events to the event queue if needed
-
+			getCpuQueue().add(p);
 			// Since we haven't implemented the CPU and I/O device yet,
 			// we let the process leave the system immediately, for now.
 			memory.processCompleted(p);

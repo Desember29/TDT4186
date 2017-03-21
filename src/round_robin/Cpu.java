@@ -7,6 +7,10 @@ import java.util.LinkedList;
  * the CPU unit of the simulated system.
  */
 public class Cpu {
+	private LinkedList<Process> cpuQueue;
+	private long maxCpuTime;
+	Statistics statistics;
+	
     /**
      * Creates a new CPU with the given parameters.
      * @param cpuQueue		The CPU queue to be used.
@@ -14,7 +18,9 @@ public class Cpu {
      * @param statistics	A reference to the statistics collector.
      */
     public Cpu(LinkedList<Process> cpuQueue, long maxCpuTime, Statistics statistics) {
-        // Incomplete
+        this.cpuQueue = cpuQueue;
+        this.maxCpuTime = maxCpuTime;
+        this.statistics = statistics;
     }
 
     /**
