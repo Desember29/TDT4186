@@ -72,8 +72,7 @@ public class Cpu {
      *			process was switched in.
      */
     public Event activeProcessLeft(long clock) {
-        // Incomplete
-        return null;
+        return switchProcess(clock);
     }
 
     /**
