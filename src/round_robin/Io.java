@@ -8,6 +8,10 @@ import java.util.LinkedList;
  */
 public class Io {
     private Process activeProcess = null;
+    
+    private LinkedList<Process> ioQueue;
+    private long avgIoTime;
+    private Statistics statistics;
 
     /**
      * Creates a new I/O device with the given parameters.
@@ -16,7 +20,9 @@ public class Io {
      * @param statistics	A reference to the statistics collector.
      */
     public Io(LinkedList<Process> ioQueue, long avgIoTime, Statistics statistics) {
-        // Incomplete
+        this.ioQueue = ioQueue;
+        this.avgIoTime = avgIoTime;
+        this.statistics = statistics;
     }
 
     /**
@@ -28,7 +34,7 @@ public class Io {
      *							if no operation was initiated.
      */
     public Event addIoRequest(Process requestingProcess, long clock) {
-        // Incomplete
+        
         return null;
     }
 
