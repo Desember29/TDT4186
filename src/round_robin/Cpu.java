@@ -7,6 +7,8 @@ import java.util.LinkedList;
  * the CPU unit of the simulated system.
  */
 public class Cpu {
+	private Process activeProcess = null;
+	
 	private LinkedList<Process> cpuQueue;
 	private long maxCpuTime;
 	Statistics statistics;
@@ -32,7 +34,13 @@ public class Cpu {
      *				or null	if no process was activated.
      */
     public Event insertProcess(Process p, long clock) {
-        // Incomplete
+        cpuQueue.add(p);
+        p.addToCpuQueue(clock);
+        if (getActiveProcess() == null) {
+        	activeProcess = cpuQueue.pop();
+        	activeProcess.activateCpu(clock);
+        	return generateEvent(p, clock);
+        }
         return null;
     }
 
@@ -45,8 +53,16 @@ public class Cpu {
      *				or null	if no process was activated.
      */
     public Event switchProcess(long clock) {
-        // Incomplete
-        return null;
+    	if (!cpuQueue.isEmpty()) {
+    		if (activeProcess != null) {
+    			activeProcess.deactivateCpu(clock);
+    			cpuQueue.add(activeProcess);		
+    		}
+    		activeProcess = cpuQueue.pop();
+    		activeProcess.activateCpu(clock);
+    		return generateEvent(activeProcess, clock);
+    	}
+    	return null;
     }
 
     /**
@@ -65,8 +81,7 @@ public class Cpu {
      * @return	The process currently using the CPU.
      */
     public Process getActiveProcess() {
-        // Incomplete
-        return null;
+        return activeProcess;
     }
 
     /**
@@ -75,6 +90,18 @@ public class Cpu {
      */
     public void timePassed(long timePassed) {
         // Incomplete
+    }
+    
+    public Event generateEvent(Process p, long clock) {
+    	if (p.getCpuTimeNeeded() > maxCpuTime && p.getTimeToNextIoOperation() > maxCpuTime) {
+    		return new Event(Event.SWITCH_PROCESS, clock + maxCpuTime);
+    	}
+    	else if (p.getTimeToNextIoOperation() > p.getCpuTimeNeeded()) {
+    		return new Event(Event.END_PROCESS, clock + p.getCpuTimeNeeded());
+    	}
+    	else {
+    		return new Event(Event.IO_REQUEST, clock + p.getTimeToNextIoOperation());
+    	}
     }
 
 }
