@@ -11,7 +11,7 @@ public class Cpu {
 	
 	private LinkedList<Process> cpuQueue;
 	private long maxCpuTime;
-	Statistics statistics;
+	private Statistics statistics;
 	
     /**
      * Creates a new CPU with the given parameters.
@@ -20,6 +20,7 @@ public class Cpu {
      * @param statistics	A reference to the statistics collector.
      */
     public Cpu(LinkedList<Process> cpuQueue, long maxCpuTime, Statistics statistics) {
+    	//Initialize member variables so they can be used within class.
         this.cpuQueue = cpuQueue;
         this.maxCpuTime = maxCpuTime;
         this.statistics = statistics;
@@ -34,13 +35,26 @@ public class Cpu {
      *				or null	if no process was activated.
      */
     public Event insertProcess(Process p, long clock) {
-        cpuQueue.add(p);
-        p.addToCpuQueue(clock);
-        if (getActiveProcess() == null) {
-        	activeProcess = cpuQueue.pop();
-        	activeProcess.activateCpu(clock);
-        	return generateEvent(p, clock);
-        }
+    	if (p != null) {
+    		//Add process to queue.
+            cpuQueue.add(p);
+            //Update process nofTimesInReadyQueue variable.
+            p.addToCpuQueue(clock);
+            //Check if current cpuQueue length is larger then cpuQueueLargestLength and if it is update value with current cpuQueue length.
+            if (statistics.cpuQueueLargestLength < cpuQueue.size()) {
+            	statistics.cpuQueueLargestLength = cpuQueue.size();
+            }
+            //Check if there is no activeProcess.
+            if (getActiveProcess() == null) {
+            	//Set activeProcess as first element in cpuQueue.
+            	activeProcess = cpuQueue.pop();
+            	//Update process timeSpentInReadyQueue and timeOfLastEvent variable.
+            	activeProcess.enterCpu(clock);
+            	//Generate new event depending on process variables.
+            	return generateEvent(p, clock);
+            }
+    	}
+    	//If no process was activated return null.
         return null;
     }
 
@@ -53,15 +67,25 @@ public class Cpu {
      *				or null	if no process was activated.
      */
     public Event switchProcess(long clock) {
+    	//Check if cpuQueue has a process waiting for CPU.
     	if (!cpuQueue.isEmpty()) {
+    		//Make sure there was an activeProcess before attempting to remove process from CPU and adding it to cpuQueue.
     		if (activeProcess != null) {
-    			activeProcess.deactivateCpu(clock);
-    			cpuQueue.add(activeProcess);		
+    			//Update process cpuTimeNeeded, timeSpentInCpu and nofTimesInReadyQueue variables.
+    			activeProcess.exitCpu(clock);
+    			//Add the process previously active in CPU to the cpuQueue.
+    			cpuQueue.add(activeProcess);
     		}
+    		//Set activeProcess as first process in cpuQueue.
     		activeProcess = cpuQueue.pop();
-    		activeProcess.activateCpu(clock);
+        	//Update process timeSpentInReadyQueue and timeOfLastEvent variable.
+    		activeProcess.enterCpu(clock);
+    		//
+    		statistics.nofProcessSwitches++;
+    		//Generate new event depending on process variables.
     		return generateEvent(activeProcess, clock);
     	}
+    	//If no process was activated return null.
     	return null;
     }
 
@@ -80,6 +104,7 @@ public class Cpu {
      * @return	The process currently using the CPU.
      */
     public Process getActiveProcess() {
+    	//Return the activeProcess.
         return activeProcess;
     }
 
@@ -88,16 +113,22 @@ public class Cpu {
      * @param timePassed	The amount of time that has passed since the last call to this method.
      */
     public void timePassed(long timePassed) {
-        // Incomplete
+    	//TODO Sjekk om dette stemmer, litt usikker på selve cpuQueueLengthTime.
+        statistics.cpuQueueLengthTime += cpuQueue.size() * timePassed;
     }
     
+    
+    //Generates events for processes in the CPU segment of the system, depending on their variables.
     public Event generateEvent(Process p, long clock) {
-    	if (p.getCpuTimeNeeded() > maxCpuTime && p.getTimeToNextIoOperation() > maxCpuTime) {
+    	//If the process requires more CPU time to complete processing than maxCpuTime and the process has a longer time to next I/O operation than maxCpuTime set SWITCH_PROCESS as new event.
+    	if (maxCpuTime < p.getCpuTimeNeeded() && maxCpuTime < p.getTimeToNextIoOperation()) {
     		return new Event(Event.SWITCH_PROCESS, clock + maxCpuTime);
     	}
-    	else if (p.getTimeToNextIoOperation() > p.getCpuTimeNeeded()) {
+    	//If the process requires less time to finish processing than the time until next I/O operation and the process requires less time to finish processing than maxCpuTIme set END_PROCESS as new event.
+    	else if (p.getCpuTimeNeeded() < p.getTimeToNextIoOperation()) {
     		return new Event(Event.END_PROCESS, clock + p.getCpuTimeNeeded());
     	}
+    	//If the process has less time until next I/O operation than CPU time needed and the process has less time until next I/O operation than maxCpuTime set IO_REQUEST as new event.
     	else {
     		return new Event(Event.IO_REQUEST, clock + p.getTimeToNextIoOperation());
     	}

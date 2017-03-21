@@ -109,21 +109,24 @@ public class Process {
 		return timeToNextIoOperation;
 	}
 	
+	// Add more methods as needed
+	
+	//Method to update process statistics variables when process enters cpuQueue.
 	public void addToCpuQueue(long clock) {
 		nofTimesInReadyQueue++;
 		timeOfLastEvent = clock;
 	}
 	
-	public void activateCpu(long clock) {
+	//Method to update process statistics variables when process enters CPU processing.
+	public void enterCpu(long clock) {
 		timeSpentInReadyQueue += clock - timeOfLastEvent;
 		timeOfLastEvent = clock;
 	}
 	
-	public void deactivateCpu(long clock) {
+	//Method to update process statistics variables when process exits CPU processing.
+	public void exitCpu(long clock) {
 		cpuTimeNeeded -= clock - timeOfLastEvent;
 		timeSpentInCpu += clock - timeOfLastEvent;
 		addToCpuQueue(clock);
 	}
-
-	// Add more methods as needed
 }
