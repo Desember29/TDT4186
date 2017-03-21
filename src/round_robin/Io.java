@@ -34,7 +34,11 @@ public class Io {
      *							if no operation was initiated.
      */
     public Event addIoRequest(Process requestingProcess, long clock) {
-        
+    	ioQueue.add(requestingProcess);
+    	if(getActiveProcess()==null){
+        	Event event = startIoOperation(clock);
+        	return event;
+        }
         return null;
     }
 
@@ -46,7 +50,9 @@ public class Io {
      *					or null	if no operation was initiated.
      */
     public Event startIoOperation(long clock) {
-        // Incomplete
+    	if(getActiveProcess()==null){
+        	activeProcess = ioQueue.pop();
+        }
         return null;
     }
 
