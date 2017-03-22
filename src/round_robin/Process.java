@@ -129,4 +129,25 @@ public class Process {
 		timeSpentInCpu += clock - timeOfLastEvent;
 		addToCpuQueue(clock);
 	}
+	
+	
+	
+	//Method to update process statistics variables when process enters cpuQueue.
+	public void addToIoQueue(long clock) {
+		nofTimesInIoQueue ++;
+		timeOfLastEvent = clock;
+	}
+	
+	//Method to update process statistics variables when process enters CPU processing.
+	public void enterIo(long clock) {
+		timeSpentWaitingForIo += clock - timeOfLastEvent;
+		timeOfLastEvent = clock;
+	}
+	
+	//Method to update process statistics variables when process exits CPU processing.
+	public void exitIo(long clock) {
+		timeSpentInIo += clock - timeOfLastEvent;
+		timeToNextIoOperation = (long) (Math.random() * avgIoInterval * 2);
+		timeOfLastEvent = clock;
+	}
 }

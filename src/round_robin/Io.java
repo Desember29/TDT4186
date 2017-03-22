@@ -35,9 +35,11 @@ public class Io {
      */
     public Event addIoRequest(Process requestingProcess, long clock) {
     	ioQueue.add(requestingProcess);
+    	if (statistics.ioQueueLargestLength < ioQueue.size()) {
+        	statistics.ioQueueLargestLength = ioQueue.size();
+        }
     	if(getActiveProcess()==null){
-        	Event event = startIoOperation(clock);
-        	return event;
+        	return startIoOperation(clock);
         }
         return null;
     }
@@ -52,6 +54,10 @@ public class Io {
     public Event startIoOperation(long clock) {
     	if(getActiveProcess()==null){
         	activeProcess = ioQueue.pop();
+        	activeProcess.addToIoQueue(clock);
+        	statistics.nofProcessedIoOperations++;
+        	
+        	return new Event(Event.END_IO, (long) (Math.random() * avgIoTime * 2)+clock);
         }
         return null;
     }
@@ -61,16 +67,23 @@ public class Io {
      * @param timePassed	The amount of time that has passed since the last call to this method.
      */
     public void timePassed(long timePassed) {
-        // Incomplete
+    	statistics.ioQueueLengthTime += ioQueue.size()*timePassed;
+        if (ioQueue.size() > statistics.ioQueueLargestLength){
+        	statistics.ioQueueLargestLength = ioQueue.size();
+        }
     }
 
     /**
      * Removes the process currently doing I/O from the I/O device.
      * @return	The process that was doing I/O, or null if no process was doing I/O.
      */
-    public Process removeActiveProcess() {
-        // Incomplete
-        return null;
+    public Process removeActiveProcess(long clock) {
+    	Process p = getActiveProcess();
+    	if(getActiveProcess()!=null){
+    		p.exitIo(clock);
+    		activeProcess = null;
+    	}
+        return p;
     }
 
     public Process getActiveProcess() {
