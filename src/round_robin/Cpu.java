@@ -35,25 +35,22 @@ public class Cpu {
      *				or null	if no process was activated.
      */
     public Event insertProcess(Process p, long clock) {
-    	if (p != null) {
-    		//Add process to queue.
-            cpuQueue.add(p);
-            //Update process nofTimesInReadyQueue variable.
-            p.addToCpuQueue(clock);
-            //Check if current cpuQueue length is larger then cpuQueueLargestLength and if it is update value with current cpuQueue length.
-            if (statistics.cpuQueueLargestLength < cpuQueue.size()) {
-            	statistics.cpuQueueLargestLength = cpuQueue.size();
-            }
-            //Check if there is no activeProcess.
-            if (getActiveProcess() == null) {
-            	//Set activeProcess as first element in cpuQueue.
-            	activeProcess = cpuQueue.pop();
-            	//Update process timeSpentInReadyQueue and timeOfLastEvent variable.
-            	activeProcess.enterCpu(clock);
-            	//Generate new event depending on process variables.
-            	return generateEvent(p, clock);
-            }
-    	}
+        cpuQueue.add(p);
+        //Update process nofTimesInReadyQueue variable.
+        p.addToCpuQueue(clock);
+        //Check if current cpuQueue length is larger then cpuQueueLargestLength and if it is update value with current cpuQueue length.
+        if (statistics.cpuQueueLargestLength < cpuQueue.size()) {
+        	statistics.cpuQueueLargestLength = cpuQueue.size();
+        }
+        //Check if there is no activeProcess.
+        if (getActiveProcess() == null) {
+        	//Set activeProcess as first element in cpuQueue.
+            activeProcess = cpuQueue.pop();
+            //Update process timeSpentInReadyQueue and timeOfLastEvent variable.
+            activeProcess.enterCpu(clock);
+            //Generate new event depending on process variables.
+            return generateEvent(p, clock);
+        }
     	//If no process was activated return null.
         return null;
     }
@@ -113,10 +110,9 @@ public class Cpu {
      * @param timePassed	The amount of time that has passed since the last call to this method.
      */
     public void timePassed(long timePassed) {
-    	//TODO Sjekk om dette stemmer, litt usikker på selve cpuQueueLengthTime.
+    	//Update cpuQueueLengthTime statistics whenever timePassed function is called.
         statistics.cpuQueueLengthTime += cpuQueue.size() * timePassed;
     }
-    
     
     //Generates events for processes in the CPU segment of the system, depending on their variables.
     public Event generateEvent(Process p, long clock) {
@@ -133,5 +129,4 @@ public class Cpu {
     		return new Event(Event.IO_REQUEST, clock + p.getTimeToNextIoOperation());
     	}
     }
-
 }
