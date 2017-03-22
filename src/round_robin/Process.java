@@ -101,15 +101,17 @@ public class Process {
 		return processId;
 	}
 	
+	// Add more methods as needed
+	
+	//Gets the remaining time in CPU required for the process to finish processing.
 	public long getCpuTimeNeeded() {
 		return cpuTimeNeeded;
 	}
 	
+	//Gets the remaining time until the process needs to enter IO.
 	public long getTimeToNextIoOperation() {
 		return timeToNextIoOperation;
 	}
-	
-	// Add more methods as needed
 	
 	//Method to update process statistics variables when process enters cpuQueue.
 	public void addToCpuQueue(long clock) {
@@ -128,5 +130,23 @@ public class Process {
 		cpuTimeNeeded -= clock - timeOfLastEvent;
 		timeSpentInCpu += clock - timeOfLastEvent;
 		addToCpuQueue(clock);
+	}
+	
+	//Method to update process statistics variables when process enters ioQueue.
+	public void addToIoQueue(long clock) {
+		nofTimesInIoQueue++;
+		timeOfLastEvent = clock;
+	}
+	
+	//Method to update process statistics variables when process enters IO processing.
+	public void enterIo(long clock) {
+		timeSpentWaitingForIo += clock - timeOfLastEvent;
+		timeOfLastEvent = clock;
+	}
+	
+	//Method to update process statistics variables when process exits IO processing.
+	public void exitIo(long clock) {
+		timeSpentInIo += clock - timeOfLastEvent;
+		addToIoQueue(clock);
 	}
 }
