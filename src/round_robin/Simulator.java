@@ -57,7 +57,7 @@ public class Simulator
 		memoryQueue.add(new Process(memorySize, avgIoTime));
 		clock = 0;
 
-		// Add code as needed
+		//TODO Add code as needed
     }
 
 	/**
@@ -183,7 +183,7 @@ public class Simulator
 	 * Ends the active process, and deallocates any resources allocated to it.
 	 */
 	private void endProcess() {
-		// Incomplete
+		//TODO Incomplete
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class Simulator
 	 * perform an I/O operation.
 	 */
 	private void processIoRequest() {
-		// Incomplete
+		//TODO Incomplete
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class Simulator
 	 * is done with its I/O operation.
 	 */
 	private void endIoOperation() {
-		// Incomplete
+		//TODO Incomplete
 	}
 
 
