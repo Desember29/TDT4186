@@ -34,11 +34,18 @@ public class Io {
      *							if no operation was initiated.
      */
     public Event addIoRequest(Process requestingProcess, long clock) {
+    	//Add process to ioQueue.
     	ioQueue.add(requestingProcess);
+    	//Update process nofTimesInIoQueue variable.
+    	requestingProcess.addToIoQueue(clock);
+        //Check if current ioQueue length is larger then ioQueueLargestLength and if it is update value with current ioQueue length.
     	if (statistics.ioQueueLargestLength < ioQueue.size()) {
-        	statistics.ioQueueLargestLength = ioQueue.size();
-        }
-    	if(getActiveProcess()==null){
+    		statistics.ioQueueLargestLength++;    		
+    	}
+    	if (getActiveProcess() == null) {
+        	activeProcess = ioQueue.pop();
+        	activeProcess.enterIo(clock);
+        	//TODO add event for process.
         	return startIoOperation(clock);
         }
         return null;
@@ -88,5 +95,10 @@ public class Io {
 
     public Process getActiveProcess() {
         return activeProcess;
+    }
+    
+  //Generates events for processes in the IO segment of the system, depending on their variables.
+    public Event generateEvent(Process p, long clock) {
+    	return null;
     }
 }
