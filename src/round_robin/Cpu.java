@@ -44,12 +44,8 @@ public class Cpu {
         }
         //Check if there is no activeProcess.
         if (activeProcess == null) {
-        	//Set activeProcess as first element in cpuQueue.
-            activeProcess = cpuQueue.pop();
-            //Update process timeSpentInReadyQueue and timeOfLastEvent variable.
-            activeProcess.enterCpu(clock);
-            //Generate new event depending on process variables.
-            return generateEvent(activeProcess, clock);
+        	//Switch in the first process if there is no activeProcess.
+        	return switchProcess(clock);
         }
     	//If no process was activated return null.
         return null;
@@ -99,14 +95,8 @@ public class Cpu {
     	activeProcess = null;
     	//Check if cpuQueue has a process waiting for CPU.
     	if (!cpuQueue.isEmpty()) {
-    		//Set activeProcess as first process in cpuQueue.
-    		activeProcess = cpuQueue.pop();
-    		//Update process timeSpentInReadyQueue and timeOfLastEvent variable.
-    		activeProcess.enterCpu(clock);
-    		//Update nofProcessSwitches variable.
-    		statistics.nofProcessSwitches++;
-    		//Generate new event depending on process variables.
-    		return generateEvent(activeProcess, clock);
+        	//Switch in the first process if there is processes still waiting for CPU.
+    		return switchProcess(clock);
     	}
     	//If no new process was switched in return null.
     	return null;

@@ -157,7 +157,8 @@ public class Simulator
 			
 			// TODO: Add this process to the CPU queue!
 			// Also add new events to the event queue if needed
-			eventQueue.insertEvent(cpu.insertProcess(p, clock));
+			Event nextEvent = cpu.insertProcess(p, clock);
+			eventQueue.insertEvent(nextEvent);
 			/*
 			// Since we haven't implemented the CPU and I/O device yet,
 			// we let the process leave the system immediately, for now.
@@ -225,6 +226,10 @@ public class Simulator
 		Process p = io.removeActiveProcess(clock);
 		//Send process to CPU and save the returned event.
 		Event nextEvent = cpu.insertProcess(p, clock);
+		//Add nextEvent to eventQueue.
+		eventQueue.insertEvent(nextEvent);
+		//Start I/O operation if there are still items in the queue.
+		nextEvent = io.startIoOperation(clock);
 		//Add nextEvent to eventQueue.
 		eventQueue.insertEvent(nextEvent);
 	}

@@ -139,6 +139,7 @@ public class Process {
 		addToCpuQueue(clock);
 	}
 	
+	//Method to update process statistics variables when process exits CPU segment.
 	public void exitCpu(long clock) {
 		cpuTimeNeeded -= clock - timeOfLastEvent;
 		timeSpentInCpu += clock - timeOfLastEvent;

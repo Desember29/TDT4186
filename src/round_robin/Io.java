@@ -45,7 +45,7 @@ public class Io {
         //Check if there is no activeProcess.
     	if (activeProcess == null) {
     		//Start IO operation
-    		startIoOperation(clock);
+    		return startIoOperation(clock);
         }
     	//If no operation was initiated return null.
         return null;
@@ -65,8 +65,6 @@ public class Io {
     			activeProcess = ioQueue.pop();
     			//Update process timeSpentWaitingForIo and timeOfLastEvent variable.
     			activeProcess.enterIo(clock);
-    			//Update nofProcessedIoOperations variable.
-    			statistics.nofProcessedIoOperations++;
     			//Generate new event END_IO as process will be finished with its I/O operation.
     			return new Event(Event.END_IO, clock + (long) (2 * Math.random() * avgIoTime));
     		}    		
@@ -95,10 +93,10 @@ public class Io {
     		Process p = activeProcess;
         	//Update process timeSpentInIo and timeOfLastEvent variables and generate a new time until next IO operation.
     		p.exitIo(clock);
+    		//Update nofProcessedIoOperations variable.
+    		statistics.nofProcessedIoOperations++;
     		//Remove active process
     		activeProcess = null;
-    		//Continue I/O operation if there are still items in ioQueue.
-    		startIoOperation(clock);
     		//Return the active process.
     		return p;
     	}
