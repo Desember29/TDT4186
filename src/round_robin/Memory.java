@@ -1,6 +1,6 @@
 package round_robin;
 
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * This class implements functionality associated with
@@ -8,7 +8,7 @@ import java.util.LinkedList;
  */
 public class Memory {
 	/** The queue of processes waiting for free memory */
-	private LinkedList<Process> memoryQueue;
+	private ConcurrentLinkedQueue<Process> memoryQueue;
 	/** A reference to the statistics collector */
 	private Statistics statistics;
 	/** The amount of memory in the memory device */
@@ -22,7 +22,7 @@ public class Memory {
 	 * @param memorySize	The amount of memory in the memory device.
 	 * @param statistics	A reference to the statistics collector.
 	 */
-    public Memory(LinkedList<Process> memoryQueue, long memorySize, Statistics statistics) {
+    public Memory(ConcurrentLinkedQueue<Process> memoryQueue, long memorySize, Statistics statistics) {
 		this.memoryQueue = memoryQueue;
 		this.memorySize = memorySize;
 		this.statistics = statistics;

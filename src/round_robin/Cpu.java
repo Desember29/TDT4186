@@ -1,6 +1,6 @@
 package round_robin;
 
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * This class implements functionality associated with
@@ -9,7 +9,7 @@ import java.util.LinkedList;
 public class Cpu {
 	private Process activeProcess = null;
 	
-	private LinkedList<Process> cpuQueue;
+	private ConcurrentLinkedQueue<Process> cpuQueue;
 	private long maxCpuTime;
 	private Statistics statistics;
 	
@@ -19,7 +19,7 @@ public class Cpu {
      * @param maxCpuTime	The Round Robin time quant to be used.
      * @param statistics	A reference to the statistics collector.
      */
-    public Cpu(LinkedList<Process> cpuQueue, long maxCpuTime, Statistics statistics) {
+    public Cpu(ConcurrentLinkedQueue<Process> cpuQueue, long maxCpuTime, Statistics statistics) {
     	//Initialize member variables so they can be used within class.
         this.cpuQueue = cpuQueue;
         this.maxCpuTime = maxCpuTime;
@@ -72,7 +72,7 @@ public class Cpu {
     			cpuQueue.add(activeProcess);
     		}
     		//Set activeProcess as first process in cpuQueue.
-    		activeProcess = cpuQueue.pop();
+    		activeProcess = (Process)cpuQueue.poll();
         	//Update process timeSpentInReadyQueue and timeOfLastEvent variable.
     		activeProcess.enterCpu(clock);
     		//Update nofProcessSwitches variable.

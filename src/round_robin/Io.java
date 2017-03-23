@@ -1,6 +1,6 @@
 package round_robin;
 
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * This class implements functionality associated with
@@ -9,7 +9,7 @@ import java.util.LinkedList;
 public class Io {
     private Process activeProcess = null;
     
-    private LinkedList<Process> ioQueue;
+    private ConcurrentLinkedQueue<Process> ioQueue;
     private long avgIoTime;
     private Statistics statistics;
 
@@ -19,7 +19,7 @@ public class Io {
      * @param avgIoTime		The average duration of an I/O operation.
      * @param statistics	A reference to the statistics collector.
      */
-    public Io(LinkedList<Process> ioQueue, long avgIoTime, Statistics statistics) {
+    public Io(ConcurrentLinkedQueue<Process> ioQueue, long avgIoTime, Statistics statistics) {
         this.ioQueue = ioQueue;
         this.avgIoTime = avgIoTime;
         this.statistics = statistics;
@@ -62,7 +62,7 @@ public class Io {
     	if (activeProcess == null) {
     		if (!ioQueue.isEmpty()) {
     			//Set activeProcess as first element in ioQueue.
-    			activeProcess = ioQueue.pop();
+    			activeProcess = (Process)ioQueue.poll();
     			//Update process timeSpentWaitingForIo and timeOfLastEvent variable.
     			activeProcess.enterIo(clock);
     			//Generate new event END_IO as process will be finished with its I/O operation.

@@ -1,7 +1,7 @@
 package round_robin;
 
 import java.lang.*;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 
 /**
@@ -10,9 +10,9 @@ import java.util.function.Consumer;
 public class Simulator
 {
 	/** Process queues */
-	private LinkedList<Process> memoryQueue = new LinkedList<>();
-	private LinkedList<Process> cpuQueue = new LinkedList<>();
-	private LinkedList<Process> ioQueue = new LinkedList<>();
+	private ConcurrentLinkedQueue<Process> memoryQueue = new ConcurrentLinkedQueue<>();
+	private ConcurrentLinkedQueue<Process> cpuQueue = new ConcurrentLinkedQueue<>();
+	private ConcurrentLinkedQueue<Process> ioQueue = new ConcurrentLinkedQueue<>();
 
 	/** The queue of events to come */
     private EventQueue eventQueue = new EventQueue();
@@ -57,7 +57,7 @@ public class Simulator
 		memoryQueue.add(new Process(memorySize, avgIoTime));
 		clock = 0;
 
-		//TODO Add code as needed
+		// Add code as needed
     }
 
 	/**
@@ -155,7 +155,7 @@ public class Simulator
 		// As long as there is enough memory, processes are moved from the memory queue to the cpu queue
 		while(p != null) {
 			
-			// TODO: Add this process to the CPU queue!
+			// Add this process to the CPU queue!
 			// Also add new events to the event queue if needed
 			Event nextEvent = cpu.insertProcess(p, clock);
 			eventQueue.insertEvent(nextEvent);
@@ -185,7 +185,6 @@ public class Simulator
 	 * Ends the active process, and deallocates any resources allocated to it.
 	 */
 	private void endProcess() {
-		//TODO Incomplete, har lagt til koden under.
 		//Fetch the active process.
 		Process p = cpu.getActiveProcess();
 		//Update process cpuTimeNeeded, timeSpentInCpu and nofTimesInReadyQueue variables.
@@ -205,7 +204,6 @@ public class Simulator
 	 * perform an I/O operation.
 	 */
 	private void processIoRequest() {
-		//TODO Incomplete, har lagt til koden under.
 		//Fetch the active process.
 		Process p = cpu.getActiveProcess();
 		//Remove the active process from CPU and activate new process if there are still processes waiting, and save returned event.
@@ -223,7 +221,6 @@ public class Simulator
 	 * is done with its I/O operation.
 	 */
 	private void endIoOperation() {
-		//TODO Incomplete, har lagt til koden under.
 		//Fetch the active process.
 		Process p = io.removeActiveProcess(clock);
 		//Send process to CPU and save the returned event.
@@ -239,15 +236,15 @@ public class Simulator
 
 	/* The following methods are used by the GUI and should not be removed or modified. */
 
-	public LinkedList<Process> getMemoryQueue() {
+	public ConcurrentLinkedQueue<Process> getMemoryQueue() {
 		return memoryQueue;
 	}
 
-	public LinkedList<Process> getCpuQueue() {
+	public ConcurrentLinkedQueue<Process> getCpuQueue() {
 		return cpuQueue;
 	}
 
-	public LinkedList<Process> getIoQueue() {
+	public ConcurrentLinkedQueue<Process> getIoQueue() {
 		return ioQueue;
 	}
 
