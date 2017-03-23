@@ -86,7 +86,7 @@ public class Process {
      * @param statistics	The Statistics object to be updated.
      */
 	public void updateStatistics(Statistics statistics) {
-		
+
 		statistics.totalTimeSpentWaitingForMemory += timeSpentWaitingForMemory;
         statistics.totalTimeSpentInReadyQueue += timeSpentInReadyQueue;
         statistics.totalTimeSpentInCpu += timeSpentInCpu;
@@ -118,6 +118,11 @@ public class Process {
 	//Gets the remaining time until the process needs to enter IO.
 	public long getTimeToNextIoOperation() {
 		return timeToNextIoOperation;
+	}
+	
+	//Gets the time of last event.
+	public long getTimeOfLastEvent() {
+		return timeOfLastEvent;
 	}
 	
 	//Method to update process statistics variables when process enters cpuQueue.

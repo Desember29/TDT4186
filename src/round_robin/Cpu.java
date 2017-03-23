@@ -60,6 +60,7 @@ public class Cpu {
      *				or null	if no process was activated.
      */
     public Event switchProcess(long clock) {
+    	//Update totalBusyCpuTime
     	//Check if cpuQueue has a process waiting for CPU.
     	if (!cpuQueue.isEmpty()) {
     		//Make sure there was an activeProcess before attempting to remove process from CPU and adding it to cpuQueue.
@@ -68,6 +69,8 @@ public class Cpu {
     			activeProcess.exitCpuEnterQueue(clock);
     			//Add the process previously active in CPU to the cpuQueue.
     			cpuQueue.add(activeProcess);
+    			//Update totalBusyCpuTime variable.
+    			statistics.totalBusyCpuTime += clock - activeProcess.getTimeOfLastEvent();
     		}
     		//Set activeProcess as first process in cpuQueue.
     		activeProcess = cpuQueue.pop();
@@ -89,8 +92,11 @@ public class Cpu {
      *			process was switched in.
      */
     public Event activeProcessLeft(long clock) {
-    	//Update process cpuTimeNeeded, timeSpentInCpu and nofTimesInReadyQueue variables.
-    	activeProcess.exitCpu(clock);
+		//Update totalBusyCpuTime variable.
+		//Update process cpuTimeNeeded, timeSpentInCpu and timeOfLastEvent variables. 
+		activeProcess.exitCpu(clock);
+		//Update totalBusyCpuTime variable.
+		statistics.totalBusyCpuTime += clock - activeProcess.getTimeOfLastEvent();
     	//Remove active process.
     	activeProcess = null;
     	//Check if cpuQueue has a process waiting for CPU.

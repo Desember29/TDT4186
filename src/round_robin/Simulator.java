@@ -188,6 +188,8 @@ public class Simulator
 		//TODO Incomplete, har lagt til koden under.
 		//Fetch the active process.
 		Process p = cpu.getActiveProcess();
+		//Update process cpuTimeNeeded, timeSpentInCpu and nofTimesInReadyQueue variables.
+		p.exitCpu(clock);
 		//Remove the active process from CPU and activate new process if there are still processes waiting, and save returned event.
 		Event nextEvent = cpu.activeProcessLeft(clock);
 		//Add nextEvent to eventQueue.
