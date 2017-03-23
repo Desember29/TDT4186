@@ -1,3 +1,14 @@
+We changed the key parameters and simulated different results based one these parameters.
+The changes we made were either doubling ar halving the values. All the results that we simulated are found below.
+During these tests, we found that two of the parameters gave more visible changes when run.
+These two were average time for arrival of new processes and max time in CPU.
+Average time for arrival could create long queues in memory when halved or make the CPU go idle when doubled.
+Max time in CPU had smaller changes in result in this task, but it could be more important in different situations.
+The changes came with how many processes were finished, but these could be changed if there were other limitations (e.g. if a process needed to finish before another).
+The other key parameters did not change the result to this degree when run with our limits, but i.e. average time in I/O could become a bottleneck if it were increased even more.
+That could make the CPU idle'ing while the processes waited in queue for I/O.
+
+
 Default input values
 Simulating.....done.
 
