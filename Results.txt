@@ -1,33 +1,320 @@
-maxCpuTime = 1000
-
+Default input values
 Simulating.....done.
 
 Simulation statistics:
 
-Number of completed processes:                                37
-Number of created processes:                                  54
-Number of (forced) process switches:                          578
-Number of processed I/O operations:                           387
-Average throughput (processes per second):                    0.148
+Number of completed processes:                                44
+Number of created processes:                                  48
+Number of (forced) process switches:                          805
+Number of processed I/O operations:                           438
+Average throughput (processes per second):                    0.176
 
-Total CPU time spent processing:                              208115 ms
-Fraction of CPU time spent processing:                        83.246%
-Total CPU time spent waiting:                                 41885 ms
-Fraction of CPU time spent waiting:                           16.754%
+Total CPU time spent processing:                              219980 ms
+Fraction of CPU time spent processing:                        87.992%
+Total CPU time spent waiting:                                 30020 ms
+Fraction of CPU time spent waiting:                           12.008%
 
-Largest occuring memory queue length:                         14
-Average memory queue length:                                  5.06976
-Largest occuring cpu queue length:                            6
-Average cpu queue length:                                     3.352272
-Largest occuring I/O queue length:                            5
-Average I/O queue length:                                     0.250008
+Largest occuring memory queue length:                         3
+Average memory queue length:                                  0.192344
+Largest occuring cpu queue length:                            5
+Average cpu queue length:                                     1.88236
+Largest occuring I/O queue length:                            3
+Average I/O queue length:                                     0.168972
 Average # of times a process has been placed in memory queue: 1
-Average # of times a process has been placed in cpu queue:    11.918919
-Average # of times a process has been placed in I/O queue:    7.2702703
+Average # of times a process has been placed in cpu queue:    17.25
+Average # of times a process has been placed in I/O queue:    9.295455
 
-Average time spent in system per process:                     41206 ms
-Average time spent waiting for memory per process:            16242 ms
-Average time spent waiting for cpu per process:               16833 ms
-Average time spent processing per process:                    5417 ms
-Average time spent waiting for I/O per process:               990 ms
-Average time spent in I/O per process:                        1723 ms
+Average time spent in system per process:                     18474 ms
+Average time spent waiting for memory per process:            1087 ms
+Average time spent waiting for cpu per process:               9456 ms
+Average time spent processing per process:                    4951 ms
+Average time spent waiting for I/O per process:               949 ms
+Average time spent in I/O per process:                        2029 ms
+
+
+
+
+memorySize = 1024
+Simulating.....done.
+
+Simulation statistics:
+
+Number of completed processes:                                43
+Number of created processes:                                  48
+Number of (forced) process switches:                          1029
+Number of processed I/O operations:                           705
+Average throughput (processes per second):                    0.172
+
+Total CPU time spent processing:                              200000 ms
+Fraction of CPU time spent processing:                        80.0%
+Total CPU time spent waiting:                                 50000 ms
+Fraction of CPU time spent waiting:                           20.0%
+
+Largest occuring memory queue length:                         4
+Average memory queue length:                                  1.193508
+Largest occuring cpu queue length:                            5
+Average cpu queue length:                                     1.801816
+Largest occuring I/O queue length:                            5
+Average I/O queue length:                                     0.640504
+Average # of times a process has been placed in memory queue: 1
+Average # of times a process has been placed in cpu queue:    22.139534
+Average # of times a process has been placed in I/O queue:    14.976745
+
+Average time spent in system per process:                     27087 ms
+Average time spent waiting for memory per process:            6300 ms
+Average time spent waiting for cpu per process:               9225 ms
+Average time spent processing per process:                    4522 ms
+Average time spent waiting for I/O per process:               3684 ms
+Average time spent in I/O per process:                        3354 ms
+
+
+
+
+memorySize = 4096
+Simulating.....done.
+
+Simulation statistics:
+
+Number of completed processes:                                44
+Number of created processes:                                  56
+Number of (forced) process switches:                          855
+Number of processed I/O operations:                           429
+Average throughput (processes per second):                    0.176
+
+Total CPU time spent processing:                              233359 ms
+Fraction of CPU time spent processing:                        93.3436%
+Total CPU time spent waiting:                                 16641 ms
+Fraction of CPU time spent waiting:                           6.6564%
+
+Largest occuring memory queue length:                         10
+Average memory queue length:                                  4.6372
+Largest occuring cpu queue length:                            8
+Average cpu queue length:                                     4.164316
+Largest occuring I/O queue length:                            5
+Average I/O queue length:                                     0.423712
+Average # of times a process has been placed in memory queue: 1
+Average # of times a process has been placed in cpu queue:    16.386364
+Average # of times a process has been placed in I/O queue:    6.75
+
+Average time spent in system per process:                     48152 ms
+Average time spent waiting for memory per process:            18488 ms
+Average time spent waiting for cpu per process:               21267 ms
+Average time spent processing per process:                    5458 ms
+Average time spent waiting for I/O per process:               1483 ms
+Average time spent in I/O per process:                        1455 ms
+
+
+
+
+maxCpuTime = 250
+Simulating.....done.
+
+Simulation statistics:
+
+Number of completed processes:                                44
+Number of created processes:                                  47
+Number of (forced) process switches:                          1194
+Number of processed I/O operations:                           370
+Average throughput (processes per second):                    0.176
+
+Total CPU time spent processing:                              217368 ms
+Fraction of CPU time spent processing:                        86.9472%
+Total CPU time spent waiting:                                 32632 ms
+Fraction of CPU time spent waiting:                           13.0528%
+
+Largest occuring memory queue length:                         2
+Average memory queue length:                                  0.03288
+Largest occuring cpu queue length:                            7
+Average cpu queue length:                                     2.260936
+Largest occuring I/O queue length:                            2
+Average I/O queue length:                                     0.069432
+Average # of times a process has been placed in memory queue: 1
+Average # of times a process has been placed in cpu queue:    25.795454
+Average # of times a process has been placed in I/O queue:    7.75
+
+Average time spent in system per process:                     19132 ms
+Average time spent waiting for memory per process:            -5 ms
+Average time spent waiting for cpu per process:               12162 ms
+Average time spent processing per process:                    4876 ms
+Average time spent waiting for I/O per process:               368 ms
+Average time spent in I/O per process:                        1729 ms
+
+
+
+
+maxCpuTime = 1000
+Simulating.....done.
+
+Simulation statistics:
+
+Number of completed processes:                                42
+Number of created processes:                                  52
+Number of (forced) process switches:                          613
+Number of processed I/O operations:                           457
+Average throughput (processes per second):                    0.168
+
+Total CPU time spent processing:                              228012 ms
+Fraction of CPU time spent processing:                        91.2048%
+Total CPU time spent waiting:                                 21988 ms
+Fraction of CPU time spent waiting:                           8.7952%
+
+Largest occuring memory queue length:                         8
+Average memory queue length:                                  3.512252
+Largest occuring cpu queue length:                            6
+Average cpu queue length:                                     3.444552
+Largest occuring I/O queue length:                            5
+Average I/O queue length:                                     0.281608
+Average # of times a process has been placed in memory queue: 1
+Average # of times a process has been placed in cpu queue:    13.214286
+Average # of times a process has been placed in I/O queue:    9.595238
+
+Average time spent in system per process:                     41720 ms
+Average time spent waiting for memory per process:            14554 ms
+Average time spent waiting for cpu per process:               18189 ms
+Average time spent processing per process:                    5220 ms
+Average time spent waiting for I/O per process:               1540 ms
+Average time spent in I/O per process:                        2215 ms
+
+
+
+
+avgIoTime = 112
+Simulating.....done.
+
+Simulation statistics:
+
+Number of completed processes:                                41
+Number of created processes:                                  52
+Number of (forced) process switches:                          828
+Number of processed I/O operations:                           425
+Average throughput (processes per second):                    0.164
+
+Total CPU time spent processing:                              233721 ms
+Fraction of CPU time spent processing:                        93.4884%
+Total CPU time spent waiting:                                 16279 ms
+Fraction of CPU time spent waiting:                           6.5116%
+
+Largest occuring memory queue length:                         8
+Average memory queue length:                                  2.684064
+Largest occuring cpu queue length:                            5
+Average cpu queue length:                                     2.884468
+Largest occuring I/O queue length:                            3
+Average I/O queue length:                                     0.05388
+Average # of times a process has been placed in memory queue: 1
+Average # of times a process has been placed in cpu queue:    16.024391
+Average # of times a process has been placed in I/O queue:    6.780488
+
+Average time spent in system per process:                     30770 ms
+Average time spent waiting for memory per process:            9510 ms
+Average time spent waiting for cpu per process:               14957 ms
+Average time spent processing per process:                    5400 ms
+Average time spent waiting for I/O per process:               150 ms
+Average time spent in I/O per process:                        751 ms
+
+
+
+
+avgIoTime = 450
+Simulating.....done.
+
+Simulation statistics:
+
+Number of completed processes:                                40
+Number of created processes:                                  49
+Number of (forced) process switches:                          629
+Number of processed I/O operations:                           218
+Average throughput (processes per second):                    0.16
+
+Total CPU time spent processing:                              213908 ms
+Fraction of CPU time spent processing:                        85.5632%
+Total CPU time spent waiting:                                 36092 ms
+Fraction of CPU time spent waiting:                           14.4368%
+
+Largest occuring memory queue length:                         6
+Average memory queue length:                                  1.083784
+Largest occuring cpu queue length:                            7
+Average cpu queue length:                                     2.542264
+Largest occuring I/O queue length:                            2
+Average I/O queue length:                                     0.118828
+Average # of times a process has been placed in memory queue: 1
+Average # of times a process has been placed in cpu queue:    13.675
+Average # of times a process has been placed in I/O queue:    3.65
+
+Average time spent in system per process:                     23597 ms
+Average time spent waiting for memory per process:            2976 ms
+Average time spent waiting for cpu per process:               13189 ms
+Average time spent processing per process:                    5260 ms
+Average time spent waiting for I/O per process:               538 ms
+Average time spent in I/O per process:                        1633 ms
+
+
+
+
+avgArrivalInterval = 2500
+Simulating.....done.
+
+Simulation statistics:
+
+Number of completed processes:                                45
+Number of created processes:                                  110
+Number of (forced) process switches:                          862
+Number of processed I/O operations:                           416
+Average throughput (processes per second):                    0.18
+
+Total CPU time spent processing:                              239839 ms
+Fraction of CPU time spent processing:                        95.9356%
+Total CPU time spent waiting:                                 10161 ms
+Fraction of CPU time spent waiting:                           4.0644%
+
+Largest occuring memory queue length:                         61
+Average memory queue length:                                  30.712223
+Largest occuring cpu queue length:                            6
+Average cpu queue length:                                     3.727384
+Largest occuring I/O queue length:                            3
+Average I/O queue length:                                     0.101468
+Average # of times a process has been placed in memory queue: 1
+Average # of times a process has been placed in cpu queue:    17.155556
+Average # of times a process has been placed in I/O queue:    7.6222224
+
+Average time spent in system per process:                     83007 ms
+Average time spent waiting for memory per process:            57306 ms
+Average time spent waiting for cpu per process:               18202 ms
+Average time spent processing per process:                    5254 ms
+Average time spent waiting for I/O per process:               500 ms
+Average time spent in I/O per process:                        1744 ms
+
+
+
+
+avgArrivalInterval = 10000
+Simulating.....done.
+
+Simulation statistics:
+
+Number of completed processes:                                27
+Number of created processes:                                  28
+Number of (forced) process switches:                          474
+Number of processed I/O operations:                           186
+Average throughput (processes per second):                    0.108
+
+Total CPU time spent processing:                              149828 ms
+Fraction of CPU time spent processing:                        59.9312%
+Total CPU time spent waiting:                                 100172 ms
+Fraction of CPU time spent waiting:                           40.0688%
+
+Largest occuring memory queue length:                         1
+Average memory queue length:                                  0.0
+Largest occuring cpu queue length:                            2
+Average cpu queue length:                                     0.33238
+Largest occuring I/O queue length:                            1
+Average I/O queue length:                                     0.011312
+Average # of times a process has been placed in memory queue: 1
+Average # of times a process has been placed in cpu queue:    16.962963
+Average # of times a process has been placed in I/O queue:    6.4444447
+
+Average time spent in system per process:                     9924 ms
+Average time spent waiting for memory per process:            -8 ms
+Average time spent waiting for cpu per process:               2792 ms
+Average time spent processing per process:                    5653 ms
+Average time spent waiting for I/O per process:               104 ms
+Average time spent in I/O per process:                        1381 ms
