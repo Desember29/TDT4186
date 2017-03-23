@@ -43,13 +43,13 @@ public class Cpu {
         	statistics.cpuQueueLargestLength = cpuQueue.size();
         }
         //Check if there is no activeProcess.
-        if (getActiveProcess() == null) {
+        if (activeProcess == null) {
         	//Set activeProcess as first element in cpuQueue.
             activeProcess = cpuQueue.pop();
             //Update process timeSpentInReadyQueue and timeOfLastEvent variable.
             activeProcess.enterCpu(clock);
             //Generate new event depending on process variables.
-            return generateEvent(p, clock);
+            return generateEvent(activeProcess, clock);
         }
     	//If no process was activated return null.
         return null;
@@ -69,7 +69,7 @@ public class Cpu {
     		//Make sure there was an activeProcess before attempting to remove process from CPU and adding it to cpuQueue.
     		if (activeProcess != null) {
     			//Update process cpuTimeNeeded, timeSpentInCpu and nofTimesInReadyQueue variables.
-    			activeProcess.exitCpu(clock);
+    			activeProcess.exitCpuEnterQueue(clock);
     			//Add the process previously active in CPU to the cpuQueue.
     			cpuQueue.add(activeProcess);
     		}
@@ -77,7 +77,7 @@ public class Cpu {
     		activeProcess = cpuQueue.pop();
         	//Update process timeSpentInReadyQueue and timeOfLastEvent variable.
     		activeProcess.enterCpu(clock);
-    		//
+    		//Update nofProcessSwitches variable.
     		statistics.nofProcessSwitches++;
     		//Generate new event depending on process variables.
     		return generateEvent(activeProcess, clock);
@@ -93,7 +93,23 @@ public class Cpu {
      *			process was switched in.
      */
     public Event activeProcessLeft(long clock) {
-        return switchProcess(clock);
+    	//Update process cpuTimeNeeded, timeSpentInCpu and nofTimesInReadyQueue variables.
+    	activeProcess.exitCpu(clock);
+    	//Remove active process.
+    	activeProcess = null;
+    	//Check if cpuQueue has a process waiting for CPU.
+    	if (!cpuQueue.isEmpty()) {
+    		//Set activeProcess as first process in cpuQueue.
+    		activeProcess = cpuQueue.pop();
+    		//Update process timeSpentInReadyQueue and timeOfLastEvent variable.
+    		activeProcess.enterCpu(clock);
+    		//Update nofProcessSwitches variable.
+    		statistics.nofProcessSwitches++;
+    		//Generate new event depending on process variables.
+    		return generateEvent(activeProcess, clock);
+    	}
+    	//If no new process was switched in return null.
+    	return null;
     }
 
     /**
@@ -118,14 +134,17 @@ public class Cpu {
     public Event generateEvent(Process p, long clock) {
     	//If the process requires more CPU time to complete processing than maxCpuTime and the process has a longer time to next I/O operation than maxCpuTime set SWITCH_PROCESS as new event.
     	if (maxCpuTime < p.getCpuTimeNeeded() && maxCpuTime < p.getTimeToNextIoOperation()) {
+    		//Return new SWITCH_PROCESS event with occurrence time as clock + maxCpuTime.
     		return new Event(Event.SWITCH_PROCESS, clock + maxCpuTime);
     	}
-    	//If the process requires less time to finish processing than the time until next I/O operation and the process requires less time to finish processing than maxCpuTIme set END_PROCESS as new event.
+    	//If the process requires less time to finish processing than the time until next I/O operation and the process requires less time to finish processing than maxCpuTime set END_PROCESS as new event.
     	else if (p.getCpuTimeNeeded() < p.getTimeToNextIoOperation()) {
+    		//Return new SWITCH_PROCESS event with occurrence time as clock + cpuTimeNeeded.
     		return new Event(Event.END_PROCESS, clock + p.getCpuTimeNeeded());
     	}
     	//If the process has less time until next I/O operation than CPU time needed and the process has less time until next I/O operation than maxCpuTime set IO_REQUEST as new event.
     	else {
+    		//Return new SWITCH_PROCESS event with occurrence time as clock + timeToNextIoOperation.
     		return new Event(Event.IO_REQUEST, clock + p.getTimeToNextIoOperation());
     	}
     }

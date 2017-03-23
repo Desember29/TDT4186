@@ -53,6 +53,8 @@ public class Process {
 		cpuTimeNeeded = 100 + (long)(Math.random()*9900);
 		// Average interval between I/O requests varies from 1% to 25% of CPU time needed
 		avgIoInterval = (1 + (long)(Math.random()*25))*cpuTimeNeeded/100;
+		// The time left until the next time this process needs I/O varies from 1% to 200%
+		generateTimeToNextIoOperation();
 		// The first and latest event involving this process is its creation
 		timeOfLastEvent = creationTime;
 		// Assign a process ID
@@ -108,6 +110,11 @@ public class Process {
 		return cpuTimeNeeded;
 	}
 	
+	//Generates the timeToNextIoOperation value.
+	public void generateTimeToNextIoOperation() {
+		timeToNextIoOperation = (1 + (long) (2 * Math.random() * avgIoInterval));
+	}
+	
 	//Gets the remaining time until the process needs to enter IO.
 	public long getTimeToNextIoOperation() {
 		return timeToNextIoOperation;
@@ -126,10 +133,16 @@ public class Process {
 	}
 	
 	//Method to update process statistics variables when process exits CPU processing.
-	public void exitCpu(long clock) {
+	public void exitCpuEnterQueue(long clock) {
 		cpuTimeNeeded -= clock - timeOfLastEvent;
 		timeSpentInCpu += clock - timeOfLastEvent;
 		addToCpuQueue(clock);
+	}
+	
+	public void exitCpu(long clock) {
+		cpuTimeNeeded -= clock - timeOfLastEvent;
+		timeSpentInCpu += clock - timeOfLastEvent;
+		timeOfLastEvent = clock;
 	}
 	
 
@@ -149,12 +162,7 @@ public class Process {
 	//Method to update process statistics variables when process exits IO processing.
 	public void exitIo(long clock) {
 		timeSpentInIo += clock - timeOfLastEvent;
-		timeToNextIoOperation = (long) (Math.random() * avgIoInterval * 2);
+		generateTimeToNextIoOperation();
 		timeOfLastEvent = clock;
-/*
-	public void exitIo(long clock) {
-		timeSpentInIo += clock - timeOfLastEvent;
-		addToIoQueue(clock);
-*/
 	}
 }

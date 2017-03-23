@@ -157,7 +157,8 @@ public class Simulator
 			
 			// TODO: Add this process to the CPU queue!
 			// Also add new events to the event queue if needed
-			cpu.insertProcess(p, clock);
+			eventQueue.insertEvent(cpu.insertProcess(p, clock));
+			/*
 			// Since we haven't implemented the CPU and I/O device yet,
 			// we let the process leave the system immediately, for now.
 			memory.processCompleted(p);
@@ -165,7 +166,7 @@ public class Simulator
 			transferProcessFromMemToReady();
 			// Update statistics
 			p.updateStatistics(statistics);
-
+			*/
 			// Check for more free memory
 			p =	 memory.checkMemory(clock);
 		}
@@ -183,7 +184,17 @@ public class Simulator
 	 * Ends the active process, and deallocates any resources allocated to it.
 	 */
 	private void endProcess() {
-		//TODO Incomplete
+		//TODO Incomplete, har lagt til koden under.
+		//Fetch the active process.
+		Process p = cpu.getActiveProcess();
+		//Remove the active process from CPU and activate new process if there are still processes waiting, and save returned event.
+		Event nextEvent = cpu.activeProcessLeft(clock);
+		//Add nextEvent to eventQueue.
+		eventQueue.insertEvent(nextEvent);
+		//Send process statistics to statistics class as it is finished.
+		p.updateStatistics(statistics);
+		//Clear memory space of process.
+		memory.processCompleted(p);
 	}
 
 	/**
@@ -191,7 +202,17 @@ public class Simulator
 	 * perform an I/O operation.
 	 */
 	private void processIoRequest() {
-		//TODO Incomplete
+		//TODO Incomplete, har lagt til koden under.
+		//Fetch the active process.
+		Process p = cpu.getActiveProcess();
+		//Remove the active process from CPU and activate new process if there are still processes waiting, and save returned event.
+		Event nextEvent = cpu.activeProcessLeft(clock);
+		//Add nextEvent to eventQueue.
+		eventQueue.insertEvent(nextEvent);
+		//Send process to I/O and save the returned event.
+		nextEvent = io.addIoRequest(p, clock);
+		//Add nextEvent to eventQueue.
+		eventQueue.insertEvent(nextEvent);
 	}
 
 	/**
@@ -199,7 +220,13 @@ public class Simulator
 	 * is done with its I/O operation.
 	 */
 	private void endIoOperation() {
-		//TODO Incomplete
+		//TODO Incomplete, har lagt til koden under.
+		//Fetch the active process.
+		Process p = io.removeActiveProcess(clock);
+		//Send process to CPU and save the returned event.
+		Event nextEvent = cpu.insertProcess(p, clock);
+		//Add nextEvent to eventQueue.
+		eventQueue.insertEvent(nextEvent);
 	}
 
 

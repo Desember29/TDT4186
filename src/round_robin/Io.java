@@ -42,12 +42,12 @@ public class Io {
     	if (statistics.ioQueueLargestLength < ioQueue.size()) {
     		statistics.ioQueueLargestLength++;    		
     	}
-    	if (getActiveProcess() == null) {
-        	activeProcess = ioQueue.pop();
-        	activeProcess.enterIo(clock);
-        	//TODO add event for process.
-        	return startIoOperation(clock);
+        //Check if there is no activeProcess.
+    	if (activeProcess == null) {
+    		//Start IO operation
+    		startIoOperation(clock);
         }
+    	//If no operation was initiated return null.
         return null;
     }
 
@@ -59,13 +59,19 @@ public class Io {
      *					or null	if no operation was initiated.
      */
     public Event startIoOperation(long clock) {
-    	if(getActiveProcess()==null){
-        	activeProcess = ioQueue.pop();
-        	activeProcess.addToIoQueue(clock);
-        	statistics.nofProcessedIoOperations++;
-        	
-        	return new Event(Event.END_IO, (long) (Math.random() * avgIoTime * 2)+clock);
-        }
+    	if (activeProcess == null) {
+    		if (!ioQueue.isEmpty()) {
+    			//Set activeProcess as first element in ioQueue.
+    			activeProcess = ioQueue.pop();
+    			//Update process timeSpentWaitingForIo and timeOfLastEvent variable.
+    			activeProcess.enterIo(clock);
+    			//Update nofProcessedIoOperations variable.
+    			statistics.nofProcessedIoOperations++;
+    			//Generate new event END_IO as process will be finished with its I/O operation.
+    			return new Event(Event.END_IO, clock + (long) (2 * Math.random() * avgIoTime));
+    		}    		
+    	}
+    	//If no operation was initiated return null.
         return null;
     }
 
@@ -74,10 +80,8 @@ public class Io {
      * @param timePassed	The amount of time that has passed since the last call to this method.
      */
     public void timePassed(long timePassed) {
-    	statistics.ioQueueLengthTime += ioQueue.size()*timePassed;
-        if (ioQueue.size() > statistics.ioQueueLargestLength){
-        	statistics.ioQueueLargestLength = ioQueue.size();
-        }
+    	//Update ioQueueLengthTime statistics whenever timePassed function is called.
+    	statistics.ioQueueLengthTime += ioQueue.size() * timePassed;
     }
 
     /**
@@ -85,20 +89,29 @@ public class Io {
      * @return	The process that was doing I/O, or null if no process was doing I/O.
      */
     public Process removeActiveProcess(long clock) {
-    	Process p = getActiveProcess();
-    	if(getActiveProcess()!=null){
+    	//Check if there is an active process
+    	if(activeProcess != null){
+    		//Save the process that is currently performing I/O.
+    		Process p = activeProcess;
+        	//Update process timeSpentInIo and timeOfLastEvent variables and generate a new time until next IO operation.
     		p.exitIo(clock);
+    		//Remove active process
     		activeProcess = null;
+    		//Continue I/O operation if there are still items in ioQueue.
+    		startIoOperation(clock);
+    		//Return the active process.
+    		return p;
     	}
-        return p;
-    }
-
-    public Process getActiveProcess() {
-        return activeProcess;
+		//If no process was doing I/O return null.
+        return null;
     }
     
-  //Generates events for processes in the IO segment of the system, depending on their variables.
-    public Event generateEvent(Process p, long clock) {
-    	return null;
+    /**
+     * Returns the process currently using the I/O.
+     * @return	The process currently using the I/O.
+     */
+    public Process getActiveProcess() {
+    	//Return the activeProcess.
+        return activeProcess;
     }
 }
